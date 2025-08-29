@@ -1,0 +1,474 @@
+{
+  "name": "ai-code-generator",
+  "displayName": "AI Code Generator - Ultimate Development Platform",
+  "description": "Revolutionary AI-powered development platform with intelligent autocomplete, project scanning, debugging assistance, and complete project generation. Features beautiful dashboard, subscription system, and 35+ commands.",
+  "version": "1.0.0",
+  "publisher": "your-publisher-name",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ai-code-generator-extension.git"
+  },
+  "homepage": "https://github.com/yourusername/ai-code-generator-extension",
+  "bugs": {
+    "url": "https://github.com/yourusername/ai-code-generator-extension/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai", "artificial-intelligence", "code-generation", "autocomplete", 
+    "debugging", "project-scanning", "development", "productivity", 
+    "typescript", "javascript", "python", "react", "vue", "angular",
+    "microservices", "architecture", "testing", "refactoring",
+    "performance", "security", "dashboard", "subscription"
+  ],
+  "galleryBanner": {
+    "color": "#667eea",
+    "theme": "dark"
+  },
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Snippets"
+  ],
+  "keywords": [
+    "ai",
+    "code generation",
+    "openai",
+    "qodo",
+    "claude",
+    "gpt",
+    "assistant",
+    "autocomplete"
+  ],
+  "activationEvents": [
+    "onCommand:aiCodeGenerator.generateCode",
+    "onCommand:aiCodeGenerator.explainCode",
+    "onCommand:aiCodeGenerator.fixCode",
+    "onCommand:aiCodeGenerator.generateTests",
+    "onCommand:aiCodeGenerator.refactorCode",
+    "onCommand:aiCodeGenerator.addComments",
+    "onCommand:aiCodeGenerator.openChat",
+    "onCommand:aiCodeGenerator.buildProject",
+    "onCommand:aiCodeGenerator.createTemplate",
+    "onCommand:aiCodeGenerator.enhanceProject",
+    "onCommand:aiCodeGenerator.generateDocs",
+    "onCommand:aiCodeGenerator.analyzeCodebase",
+    "onCommand:aiCodeGenerator.analyzeFiles",
+    "onCommand:aiCodeGenerator.createRefactoringPlan",
+    "onCommand:aiCodeGenerator.findPatterns",
+    "onCommand:aiCodeGenerator.generateTestStrategy",
+    "onCommand:aiCodeGenerator.optimizePerformance",
+    "onCommand:aiCodeGenerator.createSmartFile",
+    "onCommand:aiCodeGenerator.createSmartFolder",
+    "onCommand:aiCodeGenerator.createFromTemplate",
+    "onCommand:aiCodeGenerator.createMultipleFiles",
+    "onCommand:aiCodeGenerator.installDependencies",
+    "onCommand:aiCodeGenerator.runScript",
+    "onCommand:aiCodeGenerator.smartInstall",
+    "onCommand:aiCodeGenerator.setupDevEnvironment",
+    "onCommand:aiCodeGenerator.createFullProject",
+    "onCommand:aiCodeGenerator.createAdvancedStructure",
+    "onCommand:aiCodeGenerator.setupMicroservices",
+    "onCommand:aiCodeGenerator.createComponentLibrary"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiCodeGenerator.generateCode",
+        "title": "Generate Code",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.explainCode",
+        "title": "Explain Selected Code",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.fixCode",
+        "title": "Fix Code Issues",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.generateTests",
+        "title": "Generate Unit Tests",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.refactorCode",
+        "title": "Refactor Code",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.addComments",
+        "title": "Add Documentation",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.openChat",
+        "title": "Open AI Chat",
+        "category": "AI Code Generator"
+      },
+      {
+        "command": "aiCodeGenerator.buildProject",
+        "title": "Build Project from Description",
+        "category": "AI Project Builder"
+      },
+      {
+        "command": "aiCodeGenerator.createTemplate",
+        "title": "Create Project Template",
+        "category": "AI Project Builder"
+      },
+      {
+        "command": "aiCodeGenerator.enhanceProject",
+        "title": "Enhance Existing Project",
+        "category": "AI Project Builder"
+      },
+      {
+        "command": "aiCodeGenerator.generateDocs",
+        "title": "Generate Documentation",
+        "category": "AI Project Builder"
+      },
+      {
+        "command": "aiCodeGenerator.analyzeCodebase",
+        "title": "Analyze Full Codebase",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.analyzeFiles",
+        "title": "Analyze Specific Files",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.createRefactoringPlan",
+        "title": "Create Refactoring Plan",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.findPatterns",
+        "title": "Find Code Patterns",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.generateTestStrategy",
+        "title": "Generate Test Strategy",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.optimizePerformance",
+        "title": "Optimize Performance",
+        "category": "AI Codebase Analyzer"
+      },
+      {
+        "command": "aiCodeGenerator.createSmartFile",
+        "title": "Create Smart File",
+        "category": "AI File Manager"
+      },
+      {
+        "command": "aiCodeGenerator.createSmartFolder",
+        "title": "Create Smart Folder",
+        "category": "AI File Manager"
+      },
+      {
+        "command": "aiCodeGenerator.createFromTemplate",
+        "title": "Create File from Template",
+        "category": "AI File Manager"
+      },
+      {
+        "command": "aiCodeGenerator.createMultipleFiles",
+        "title": "Create Multiple Files",
+        "category": "AI File Manager"
+      },
+      {
+        "command": "aiCodeGenerator.installDependencies",
+        "title": "Install Dependencies",
+        "category": "AI Terminal Manager"
+      },
+      {
+        "command": "aiCodeGenerator.runScript",
+        "title": "Run Script",
+        "category": "AI Terminal Manager"
+      },
+      {
+        "command": "aiCodeGenerator.smartInstall",
+        "title": "Smart Install Dependencies",
+        "category": "AI Terminal Manager"
+      },
+      {
+        "command": "aiCodeGenerator.setupDevEnvironment",
+        "title": "Setup Development Environment",
+        "category": "AI Terminal Manager"
+      },
+      {
+        "command": "aiCodeGenerator.createFullProject",
+        "title": "Create Full Project from Description",
+        "category": "AI Project Scaffolder"
+      },
+      {
+        "command": "aiCodeGenerator.createAdvancedStructure",
+        "title": "Create Advanced Architecture",
+        "category": "AI Project Scaffolder"
+      },
+      {
+        "command": "aiCodeGenerator.setupMicroservices",
+        "title": "Setup Microservices Architecture",
+        "category": "AI Project Scaffolder"
+      },
+      {
+        "command": "aiCodeGenerator.createComponentLibrary",
+        "title": "Create Component Library",
+        "category": "AI Project Scaffolder"
+      },
+      {
+        "command": "aiCodeGenerator.analyzeError",
+        "title": "Analyze Error",
+        "category": "AI Debugging Assistant"
+      },
+      {
+        "command": "aiCodeGenerator.suggestBreakpoints",
+        "title": "Suggest Breakpoints",
+        "category": "AI Debugging Assistant"
+      },
+      {
+        "command": "aiCodeGenerator.generateDebugScript",
+        "title": "Generate Debug Script",
+        "category": "AI Debugging Assistant"
+      },
+      {
+        "command": "aiCodeGenerator.showSubscriptionPlans",
+        "title": "View Subscription Plans",
+        "category": "AI Subscription"
+      },
+      {
+        "command": "aiCodeGenerator.purchaseCredits",
+        "title": "Purchase Credits",
+        "category": "AI Subscription"
+      },
+      {
+        "command": "aiCodeGenerator.showUsageDetails",
+        "title": "View Usage Details",
+        "category": "AI Subscription"
+      },
+      {
+        "command": "aiCodeGenerator.manageSubscription",
+        "title": "Manage Subscription",
+        "category": "AI Subscription"
+      },
+      {
+        "command": "aiCodeGenerator.openDashboard",
+        "title": "Open Dashboard",
+        "category": "AI Dashboard"
+      },
+      {
+        "command": "aiCodeGenerator.refreshDashboard",
+        "title": "Refresh Dashboard",
+        "category": "AI Dashboard"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "aiCodeGenerator.submenu",
+          "group": "1_modification"
+        }
+      ],
+      "aiCodeGenerator.submenu": [
+        {
+          "command": "aiCodeGenerator.generateCode",
+          "group": "generate"
+        },
+        {
+          "command": "aiCodeGenerator.explainCode",
+          "group": "analyze",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aiCodeGenerator.fixCode",
+          "group": "analyze",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aiCodeGenerator.generateTests",
+          "group": "generate",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aiCodeGenerator.refactorCode",
+          "group": "analyze",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "aiCodeGenerator.addComments",
+          "group": "analyze",
+          "when": "editorHasSelection"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "aiCodeGenerator.submenu",
+        "label": "AI Code Generator"
+      }
+    ],
+    "configuration": {
+      "title": "AI Code Generator",
+      "properties": {
+        "aiCodeGenerator.provider": {
+          "type": "string",
+          "default": "gemini",
+          "enum": [
+            "openai",
+            "qodo",
+            "anthropic",
+            "ollama",
+            "gemini"
+          ],
+          "enumDescriptions": [
+            "OpenAI GPT models",
+            "Qodo AI platform",
+            "Anthropic Claude models",
+            "Local Ollama models",
+            "Google Gemini models"
+          ],
+          "description": "AI provider to use for code generation"
+        },
+        "aiCodeGenerator.openai.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API key"
+        },
+        "aiCodeGenerator.openai.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "enum": [
+            "gpt-3.5-turbo",
+            "gpt-4",
+            "gpt-4-turbo-preview"
+          ],
+          "description": "OpenAI model to use"
+        },
+        "aiCodeGenerator.qodo.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Qodo API key"
+        },
+        "aiCodeGenerator.qodo.endpoint": {
+          "type": "string",
+          "default": "https://api.qodo.ai",
+          "description": "Qodo API endpoint"
+        },
+        "aiCodeGenerator.anthropic.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Anthropic API key"
+        },
+        "aiCodeGenerator.anthropic.model": {
+          "type": "string",
+          "default": "claude-3-sonnet-20240229",
+          "enum": [
+            "claude-3-sonnet-20240229",
+            "claude-3-opus-20240229",
+            "claude-3-haiku-20240307"
+          ],
+          "description": "Anthropic model to use"
+        },
+        "aiCodeGenerator.ollama.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama API endpoint"
+        },
+        "aiCodeGenerator.ollama.model": {
+          "type": "string",
+          "default": "codellama",
+          "description": "Ollama model to use"
+        },
+        "aiCodeGenerator.gemini.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Google AI API key for Gemini models"
+        },
+        "aiCodeGenerator.gemini.model": {
+          "type": "string",
+          "default": "gemini-1.5-flash",
+          "enum": [
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
+            "gemini-2.0-flash-exp"
+          ],
+          "description": "Google Gemini model to use"
+        },
+        "aiCodeGenerator.maxTokens": {
+          "type": "number",
+          "default": 2048,
+          "description": "Maximum tokens for AI responses"
+        },
+        "aiCodeGenerator.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Temperature for AI responses (creativity level)"
+        }
+      }
+    },
+    "views": {
+      "aiCodeGenerator": [
+        {
+          "type": "webview",
+          "id": "aiCodeGenerator.dashboard",
+          "name": "Dashboard",
+          "when": "true"
+        },
+        {
+          "type": "webview",
+          "id": "aiCodeGenerator.chatView",
+          "name": "AI Chat",
+          "when": "true"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiCodeGenerator",
+          "title": "AI Code Generator",
+          "icon": "$(robot)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish:pre": "vsce publish --pre-release",
+    "deploy": "npm run compile && npm run package",
+    "deploy:full": "npm run compile && npm run test && npm run package && npm run publish",
+    "install:local": "code --install-extension *.vsix",
+    "clean": "rimraf out *.vsix",
+    "build": "npm run clean && npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "@vscode/vsce": "^2.15.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.2.1",
+    "axios": "^1.6.0",
+    "openai": "^4.20.0"
+  }
+}
