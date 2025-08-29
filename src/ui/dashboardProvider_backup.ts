@@ -82,9 +82,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                 case 'quickAction':
                     await this.executeQuickAction(data.action);
                     break;
-                case 'configureAPI':
-                    await this.configureAPIKey();
-                    break;
             }
         });
 
@@ -95,74 +92,52 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
     private async refreshDashboard() {
         if (!this._view) return;
 
-        try {
-            const dashboardData = await this.getDashboardData();
-            
-            this._view.webview.postMessage({
-                type: 'updateDashboard',
-                data: dashboardData
-            });
-        } catch (error) {
-            console.error('Error refreshing dashboard:', error);
-            this._view.webview.postMessage({
-                type: 'showError',
-                message: `Error loading dashboard: ${error}`
-            });
-        }
+        const dashboardData = await this.getDashboardData();
+        
+        this._view.webview.postMessage({
+            type: 'updateDashboard',
+            data: dashboardData
+        });
     }
 
     private async getDashboardData(): Promise<DashboardData> {
-        let user;
-        try {
-            user = await this.subscriptionManager.getCurrentUser();
-        } catch (error) {
-            // If subscription manager fails, use default user data
-            user = null;
-        }
-
+        const user = await this.subscriptionManager.getCurrentUser();
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
         
         let projectHealth: ProjectHealth = {
-            score: 85,
+            score: 0,
             totalIssues: 0,
             criticalIssues: 0,
             securityIssues: 0,
             performanceIssues: 0,
-            maintainabilityScore: 85,
-            testCoverage: 70,
-            codeQuality: 85,
-            recommendations: [
-                'Configure AI provider API key to unlock full features',
-                'Run a project scan to identify issues',
-                'Add unit tests to improve coverage'
-            ]
+            maintainabilityScore: 0,
+            testCoverage: 0,
+            codeQuality: 0,
+            recommendations: []
         };
 
         let recentScans: ScanResult[] = [];
 
         if (workspaceFolder) {
-            try {
-                recentScans = this.scanner.getScanResults(workspaceFolder.uri.fsPath);
-                
-                if (recentScans.length > 0) {
-                    projectHealth = {
-                        score: Math.max(0, 100 - recentScans.length * 2),
-                        totalIssues: recentScans.length,
-                        criticalIssues: recentScans.filter(r => r.severity === 'critical').length,
-                        securityIssues: recentScans.filter(r => r.category === 'security').length,
-                        performanceIssues: recentScans.filter(r => r.category === 'performance').length,
-                        maintainabilityScore: Math.max(0, 100 - recentScans.filter(r => r.category === 'maintainability').length * 5),
-                        testCoverage: 70,
-                        codeQuality: Math.max(0, 100 - recentScans.filter(r => r.category === 'style').length * 3),
-                        recommendations: [
-                            'Fix critical security issues',
-                            'Add unit tests',
-                            'Optimize performance bottlenecks'
-                        ]
-                    };
-                }
-            } catch (error) {
-                console.error('Error getting scan results:', error);
+            recentScans = this.scanner.getScanResults(workspaceFolder.uri.fsPath);
+            
+            if (recentScans.length > 0) {
+                projectHealth = {
+                    score: Math.max(0, 100 - recentScans.length * 2),
+                    totalIssues: recentScans.length,
+                    criticalIssues: recentScans.filter(r => r.severity === 'critical').length,
+                    securityIssues: recentScans.filter(r => r.category === 'security').length,
+                    performanceIssues: recentScans.filter(r => r.category === 'performance').length,
+                    maintainabilityScore: Math.max(0, 100 - recentScans.filter(r => r.category === 'maintainability').length * 5),
+                    testCoverage: 70, // This would be calculated from actual test analysis
+                    codeQuality: Math.max(0, 100 - recentScans.filter(r => r.category === 'style').length * 3),
+                    recommendations: [
+                        'Run a full project scan',
+                        'Fix critical security issues',
+                        'Add unit tests',
+                        'Optimize performance bottlenecks'
+                    ]
+                };
             }
         }
 
@@ -284,31 +259,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         await vscode.commands.executeCommand('aiCodeGenerator.showUsageDetails');
     }
 
-    private async configureAPIKey() {
-        const provider = vscode.workspace.getConfiguration('aiCodeGenerator').get<string>('provider', 'gemini');
-        
-        const choice = await vscode.window.showInformationMessage(
-            `Configure your ${provider.toUpperCase()} API key to unlock AI features`,
-            'Open Settings',
-            'Learn More'
-        );
-
-        if (choice === 'Open Settings') {
-            await vscode.commands.executeCommand('workbench.action.openSettings', `aiCodeGenerator.${provider}.apiKey`);
-        } else if (choice === 'Learn More') {
-            const urls: { [key: string]: string } = {
-                'gemini': 'https://makersuite.google.com/app/apikey',
-                'openai': 'https://platform.openai.com/api-keys',
-                'anthropic': 'https://console.anthropic.com/',
-                'qodo': 'https://qodo.ai'
-            };
-            
-            if (urls[provider]) {
-                vscode.env.openExternal(vscode.Uri.parse(urls[provider]));
-            }
-        }
-    }
-
     private async executeQuickAction(action: string) {
         switch (action) {
             case 'createFile':
@@ -327,12 +277,16 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
     }
 
     private _getHtmlForWebview(webview: vscode.Webview): string {
+        const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'dashboard.css'));
+        const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'dashboard.js'));
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Code Generator Dashboard</title>
+    <link href="${styleUri}" rel="stylesheet">
     <style>
         body {
             font-family: var(--vscode-font-family);
@@ -520,6 +474,36 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             opacity: 0.7;
         }
 
+        .recent-activity {
+            background: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--vscode-panel-border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
         .btn {
             background: var(--vscode-button-background);
             color: var(--vscode-button-foreground);
@@ -543,6 +527,21 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         .btn-secondary {
             background: transparent;
             border: 1px solid var(--vscode-panel-border);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--vscode-panel-border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
         }
 
         .recommendations {
@@ -578,16 +577,52 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             100% { transform: rotate(360deg); }
         }
 
-        .error-message {
-            background: var(--vscode-inputValidation-errorBackground);
-            border: 1px solid var(--vscode-inputValidation-errorBorder);
-            color: var(--vscode-inputValidation-errorForeground);
-            padding: 15px;
-            border-radius: 8px;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin: 20px 0;
         }
 
-        .setup-banner {
+        .feature-card {
+            background: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-panel-border);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--vscode-textLink-foreground);
+        }
+
+        .feature-card.premium {
+            border-color: #ffa726;
+            position: relative;
+        }
+
+        .feature-card.premium::after {
+            content: "PRO";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffa726;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 30px 0 15px 0;
+            color: var(--vscode-textLink-foreground);
+        }
+
+        .upgrade-banner {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
@@ -596,11 +631,11 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             margin: 20px 0;
         }
 
-        .setup-banner h3 {
+        .upgrade-banner h3 {
             margin: 0 0 10px 0;
         }
 
-        .setup-banner p {
+        .upgrade-banner p {
             margin: 0 0 15px 0;
             opacity: 0.9;
         }
@@ -611,10 +646,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <div>Loading dashboard...</div>
-        </div>
-
-        <div class="error-message" id="errorMessage" style="display: none;">
-            <strong>Error:</strong> <span id="errorText"></span>
         </div>
 
         <div id="dashboard-content" style="display: none;">
@@ -632,13 +663,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                     <div class="plan-badge" id="plan">Free</div>
                     <button class="btn btn-secondary" onclick="openSettings()">⚙️</button>
                 </div>
-            </div>
-
-            <!-- Setup Banner -->
-            <div class="setup-banner" id="setupBanner">
-                <h3>🚀 Get Started</h3>
-                <p>Configure your AI provider to unlock powerful code generation features</p>
-                <button class="btn" style="background: white; color: #667eea;" onclick="configureAPI()">Configure API Key</button>
             </div>
 
             <!-- Stats Grid -->
@@ -668,7 +692,7 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                         <h3 style="margin: 0;">Project Health</h3>
                         <p style="margin: 5px 0 0 0; opacity: 0.7;" id="projectName">No Project</p>
                     </div>
-                    <div class="health-score" id="healthScore">85</div>
+                    <div class="health-score" id="healthScore">0</div>
                 </div>
                 
                 <div class="health-metrics">
@@ -681,11 +705,11 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                         <div class="metric-label">Security Issues</div>
                     </div>
                     <div class="metric">
-                        <div class="metric-value good" id="testCoverage">70%</div>
+                        <div class="metric-value good" id="testCoverage">0%</div>
                         <div class="metric-label">Test Coverage</div>
                     </div>
                     <div class="metric">
-                        <div class="metric-value good" id="codeQuality">85</div>
+                        <div class="metric-value good" id="codeQuality">0</div>
                         <div class="metric-label">Code Quality</div>
                     </div>
                 </div>
@@ -697,7 +721,7 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             </div>
 
             <!-- Quick Actions -->
-            <div style="font-size: 18px; font-weight: bold; margin: 30px 0 15px 0; color: var(--vscode-textLink-foreground);">Quick Actions</div>
+            <div class="section-title">Quick Actions</div>
             <div class="quick-actions">
                 <div class="action-card" onclick="quickAction('createFile')">
                     <div class="action-icon">📄</div>
@@ -709,15 +733,38 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                     <div class="action-title">Generate Code</div>
                     <div class="action-description">Create code from descriptions</div>
                 </div>
-                <div class="action-card" onclick="openFeature('chat')">
-                    <div class="action-icon">💬</div>
-                    <div class="action-title">AI Chat</div>
-                    <div class="action-description">Chat with AI assistant</div>
-                </div>
                 <div class="action-card" onclick="quickAction('scanSecurity')">
                     <div class="action-icon">🔒</div>
                     <div class="action-title">Security Scan</div>
                     <div class="action-description">Find security vulnerabilities</div>
+                </div>
+                <div class="action-card" onclick="quickAction('optimizePerformance')">
+                    <div class="action-icon">🚀</div>
+                    <div class="action-title">Optimize Performance</div>
+                    <div class="action-description">Improve code performance</div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="section-title">Available Features</div>
+            <div class="feature-grid" id="features"></div>
+
+            <!-- Upgrade Banner -->
+            <div class="upgrade-banner" id="upgradeBanner" style="display: none;">
+                <h3>🚀 Upgrade to Premium</h3>
+                <p>Unlock advanced features, unlimited scans, and priority support</p>
+                <button class="btn" style="background: white; color: #667eea;" onclick="upgrade()">View Plans</button>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="section-title">Recent Activity</div>
+            <div class="recent-activity" id="recentActivity">
+                <div class="activity-item">
+                    <div style="display: flex; align-items: center;">
+                        <div class="activity-icon" style="background: #66bb6a; color: white;">✓</div>
+                        <div>Welcome to AI Code Generator!</div>
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.7;">Just now</div>
                 </div>
             </div>
         </div>
@@ -735,18 +782,14 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                 case 'updateDashboard':
                     updateDashboard(message.data);
                     break;
-                case 'showError':
-                    showError(message.message);
-                    break;
             }
         });
 
         function updateDashboard(data) {
             dashboardData = data;
             
-            // Hide loading and error, show content
+            // Hide loading, show content
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('dashboard-content').style.display = 'block';
 
             // Update user info
@@ -776,13 +819,43 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
                 div.textContent = suggestion;
                 recommendationsEl.appendChild(div);
             });
+
+            // Update features
+            updateFeatures(data.features);
+
+            // Show upgrade banner for free users
+            if (data.user.plan === 'Free') {
+                document.getElementById('upgradeBanner').style.display = 'block';
+            }
         }
 
-        function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('dashboard-content').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'block';
-            document.getElementById('errorText').textContent = message;
+        function updateFeatures(features) {
+            const featuresEl = document.getElementById('features');
+            featuresEl.innerHTML = '';
+
+            // Available features
+            features.available.forEach(feature => {
+                const div = document.createElement('div');
+                div.className = 'feature-card';
+                div.innerHTML = \`
+                    <div style="font-weight: bold; margin-bottom: 5px;">\${feature}</div>
+                    <div style="font-size: 12px; opacity: 0.7;">Available</div>
+                \`;
+                div.onclick = () => openFeature(feature.toLowerCase().replace(' ', ''));
+                featuresEl.appendChild(div);
+            });
+
+            // Premium features
+            features.premium.forEach(feature => {
+                const div = document.createElement('div');
+                div.className = 'feature-card premium';
+                div.innerHTML = \`
+                    <div style="font-weight: bold; margin-bottom: 5px;">\${feature}</div>
+                    <div style="font-size: 12px; opacity: 0.7;">Premium Only</div>
+                \`;
+                div.onclick = () => upgrade();
+                featuresEl.appendChild(div);
+            });
         }
 
         // Action functions
@@ -798,6 +871,10 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             vscode.postMessage({ type: 'openFeature', feature });
         }
 
+        function upgrade() {
+            vscode.postMessage({ type: 'upgrade' });
+        }
+
         function openSettings() {
             vscode.postMessage({ type: 'openSettings' });
         }
@@ -808,10 +885,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
 
         function quickAction(action) {
             vscode.postMessage({ type: 'quickAction', action });
-        }
-
-        function configureAPI() {
-            vscode.postMessage({ type: 'configureAPI' });
         }
 
         // Initialize

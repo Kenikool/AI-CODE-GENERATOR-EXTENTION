@@ -664,4 +664,14 @@ Provide a clear explanation of what's happening and what to look for.`
     public getWatchExpressions(): string[] {
         return this.watchExpressions;
     }
+
+    public dispose(): void {
+        // Clean up resources
+        this.breakpoints.clear();
+        this.watchExpressions = [];
+        this.errorHistory = [];
+        
+        // Note: VS Code debug listeners are automatically cleaned up
+        // when the extension is deactivated
+    }
 }

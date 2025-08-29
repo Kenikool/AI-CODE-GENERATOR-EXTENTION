@@ -129,7 +129,7 @@ export class FileSystemManager {
             );
 
             // Create the folder structure
-            await this.createFolderStructure(folderStructure, basePath);
+            await this.createFolderStructure([folderStructure], basePath);
 
             vscode.window.showInformationMessage(`✅ Created smart folder structure: ${folderName}`);
 

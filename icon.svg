@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#gradient)" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- AI Brain/Circuit pattern -->
+  <g fill="#ffffff" opacity="0.9">
+    <!-- Central processor -->
+    <rect x="54" y="54" width="20" height="20" rx="3" fill="#ffffff"/>
+    
+    <!-- Circuit lines -->
+    <rect x="44" y="62" width="10" height="2" fill="#ffffff"/>
+    <rect x="74" y="62" width="10" height="2" fill="#ffffff"/>
+    <rect x="62" y="44" width="2" height="10" fill="#ffffff"/>
+    <rect x="62" y="74" width="2" height="10" fill="#ffffff"/>
+    
+    <!-- Connection nodes -->
+    <circle cx="40" cy="63" r="3" fill="#ffffff"/>
+    <circle cx="88" cy="63" r="3" fill="#ffffff"/>
+    <circle cx="63" cy="40" r="3" fill="#ffffff"/>
+    <circle cx="63" cy="88" r="3" fill="#ffffff"/>
+    
+    <!-- Corner circuits -->
+    <rect x="35" y="35" width="8" height="8" rx="2" fill="#ffffff" opacity="0.7"/>
+    <rect x="85" y="35" width="8" height="8" rx="2" fill="#ffffff" opacity="0.7"/>
+    <rect x="35" y="85" width="8" height="8" rx="2" fill="#ffffff" opacity="0.7"/>
+    <rect x="85" y="85" width="8" height="8" rx="2" fill="#ffffff" opacity="0.7"/>
+    
+    <!-- Connecting lines to corners -->
+    <rect x="43" y="41" width="8" height="1" fill="#ffffff" opacity="0.5"/>
+    <rect x="77" y="41" width="8" height="1" fill="#ffffff" opacity="0.5"/>
+    <rect x="43" y="87" width="8" height="1" fill="#ffffff" opacity="0.5"/>
+    <rect x="77" y="87" width="8" height="1" fill="#ffffff" opacity="0.5"/>
+  </g>
+  
+  <!-- Code brackets -->
+  <g fill="#ffffff" opacity="0.8" font-family="monospace" font-size="16" font-weight="bold">
+    <text x="25" y="70" fill="#ffffff">&lt;</text>
+    <text x="95" y="70" fill="#ffffff">&gt;</text>
+  </g>
+  
+  <!-- AI text -->
+  <text x="64" y="110" text-anchor="middle" fill="#667eea" font-family="Arial, sans-serif" font-size="12" font-weight="bold">AI</text>
+</svg>

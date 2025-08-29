@@ -22,6 +22,27 @@ node_modules/**
 !README.md
 !CHANGELOG.md
 
+# Development documentation files
+COMMAND_REFERENCE.md
+COMPILATION_FIXES.md
+DEPLOYMENT_CHECKLIST.md
+DEPLOYMENT_GUIDE.md
+ENHANCED_FEATURES.md
+ERROR_FIXED.md
+gemini-setup.md
+GEMINI_MODEL_FIX.md
+GEMINI_SETUP_COMPLETE.md
+PACKAGING_FIXED.md
+qodo.md
+QUICK_FIX_SUMMARY.md
+QUICK_START_GUIDE.md
+REVOLUTIONARY_FEATURES.md
+SETUP_GEMINI_API_KEY.md
+SUCCESS_SUMMARY.md
+SWITCH_TO_GEMINI.md
+ULTIMATE_FEATURES.md
+WHERE_TO_PUT_API_KEY.md
+
 # Test files
 **/*.test.ts
 **/*.test.js
@@ -34,6 +55,16 @@ deploy.sh
 deploy.bat
 webpack.config.js
 rollup.config.js
+compile-check.js
+quick-compile-test.js
+test-gemini.js
+test-provider-fix.js
+update-gemini-model.js
+verify-setup.js
+compile.bat
+fix-and-setup.bat
+install-dependencies.bat
+vscode-settings-template.json
 
 # IDE files
 .vscode/**
@@ -75,14 +106,18 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv environment variables file (CRITICAL - NEVER PACKAGE)
 .env
+.env.*
+**/.env
+**/.env.*
 .env.test
 .env.production
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+example.env
 
 # Temporary folders
 tmp/

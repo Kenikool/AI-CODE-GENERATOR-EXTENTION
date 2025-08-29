@@ -1,38 +1,18 @@
 {
-  "name": "ai-code-generator",
+  "name": "kenikool-ai-code-generator",
   "displayName": "AI Code Generator - Ultimate Development Platform",
   "description": "Revolutionary AI-powered development platform with intelligent autocomplete, project scanning, debugging assistance, and complete project generation. Features beautiful dashboard, subscription system, and 35+ commands.",
-  "version": "1.0.0",
-  "publisher": "your-publisher-name",
+  "version": "1.0.1",
+  "publisher": "KENIKOOL-TECH",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/ai-code-generator-extension.git"
+    "url": "https://github.com/Kenikool/kenikool-ai-code-generator"
   },
-  "homepage": "https://github.com/yourusername/ai-code-generator-extension",
+  "homepage": "https://github.com/Kenikool/kenikool-ai-code-generator",
   "bugs": {
-    "url": "https://github.com/yourusername/ai-code-generator-extension/issues"
+    "url": "https://github.com/Kenikool/kenikool-ai-code-generator/issues"
   },
   "license": "MIT",
-  "keywords": [
-    "ai", "artificial-intelligence", "code-generation", "autocomplete", 
-    "debugging", "project-scanning", "development", "productivity", 
-    "typescript", "javascript", "python", "react", "vue", "angular",
-    "microservices", "architecture", "testing", "refactoring",
-    "performance", "security", "dashboard", "subscription"
-  ],
-  "galleryBanner": {
-    "color": "#667eea",
-    "theme": "dark"
-  },
-  "icon": "icon.png",
-  "engines": {
-    "vscode": "^1.74.0"
-  },
-  "categories": [
-    "Other",
-    "Machine Learning",
-    "Snippets"
-  ],
   "keywords": [
     "ai",
     "code generation",
@@ -42,6 +22,18 @@
     "gpt",
     "assistant",
     "autocomplete"
+  ],
+  "galleryBanner": {
+    "color": "#667eea",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Snippets"
   ],
   "activationEvents": [
     "onCommand:aiCodeGenerator.generateCode",
@@ -457,6 +449,7 @@
     "build": "npm run clean && npm run compile"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "16.x",
     "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
@@ -464,6 +457,7 @@
     "@vscode/test-electron": "^2.2.0",
     "@vscode/vsce": "^2.15.0",
     "eslint": "^8.28.0",
+    "mocha": "^10.2.0",
     "typescript": "^4.9.4"
   },
   "dependencies": {

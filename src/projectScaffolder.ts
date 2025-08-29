@@ -248,7 +248,7 @@ export class ProjectScaffolder {
 
             // Create docker-compose and other orchestration files
             for (const [fileName, content] of Object.entries(architecture.orchestration)) {
-                fs.writeFileSync(path.join(projectPath, fileName), content);
+                fs.writeFileSync(path.join(projectPath, fileName), content as string);
             }
 
             // Create main package.json for workspace

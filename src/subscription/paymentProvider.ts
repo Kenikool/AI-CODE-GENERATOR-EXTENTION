@@ -40,7 +40,7 @@ export interface PaymentConfig {
 }
 
 export class PaymentProvider {
-    private config: PaymentConfig;
+    private config!: PaymentConfig;
     private paymentMethods: PaymentMethod[] = [];
 
     constructor() {

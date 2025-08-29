@@ -26,7 +26,12 @@ let intelligentCompletion: IntelligentCompletion;
 let fileSystemManager: FileSystemManager;
 let terminalManager: TerminalManager;
 let projectScaffolder: ProjectScaffolder;
-
+let enhancedAutocomplete: EnhancedAutocomplete;
+let advancedScanner: AdvancedScanner;
+let debuggingAssistant: DebuggingAssistant;
+let dashboardProvider: DashboardProvider;
+let subscriptionManager: SubscriptionManager;
+let paymentProvider: PaymentProvider;
 export function activate(context: vscode.ExtensionContext) {
     console.log('AI Code Generator extension is now active!');
 
@@ -378,8 +383,7 @@ async function buildProjectFromDescription() {
     try {
         const description = await vscode.window.showInputBox({
             prompt: 'Describe the project you want to build',
-            placeHolder: 'e.g., A React e-commerce app with user authentication and payment processing',
-            multiline: true
+            placeHolder: 'e.g., A React e-commerce app with user authentication and payment processing'
         });
 
         if (!description) return;
@@ -442,8 +446,7 @@ async function enhanceExistingProject() {
     try {
         const enhancement = await vscode.window.showInputBox({
             prompt: 'Describe the enhancement you want to add',
-            placeHolder: 'e.g., Add user authentication, Add database integration, Add testing setup',
-            multiline: true
+            placeHolder: 'e.g., Add user authentication, Add database integration, Add testing setup'
         });
 
         if (!enhancement) return;
@@ -1310,8 +1313,7 @@ async function createFullProject() {
     try {
         const description = await vscode.window.showInputBox({
             prompt: 'Describe the project you want to create',
-            placeHolder: 'e.g., A React e-commerce app with user authentication, shopping cart, and payment integration',
-            multiline: true
+            placeHolder: 'e.g., A React e-commerce app with user authentication, shopping cart, and payment integration'
         });
 
         if (!description) return;
@@ -1540,13 +1542,17 @@ async function suggestBreakpoints() {
             return;
         }
 
+        interface SuggestionItem extends vscode.QuickPickItem {
+            suggestion: any;
+        }
+
         const choice = await vscode.window.showQuickPick(
             suggestions.map(s => ({
                 label: s.title,
                 description: s.description,
                 detail: `Line ${s.line} - Confidence: ${s.confidence}/10`,
                 suggestion: s
-            })),
+            } as SuggestionItem)),
             { placeHolder: 'Select breakpoint to add' }
         );
 
@@ -1989,5 +1995,5 @@ export function deactivate() {
     intelligentCompletion?.dispose();
     terminalManager?.dispose();
     enhancedAutocomplete?.dispose();
-    debuggingAssistant?.dispose?.();
+    debuggingAssistant?.dispose();
 }

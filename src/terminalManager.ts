@@ -45,13 +45,13 @@ export class TerminalManager {
         cancellationToken?: vscode.CancellationToken
     ): Promise<{ success: boolean; output: string; error?: string }> {
         return new Promise((resolve) => {
-            const cwd = workingDirectory || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
-            
+            const cwd: string = workingDirectory || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
+
             if (showOutput) {
                 vscode.window.showInformationMessage(`🔄 Executing: ${command}`);
             }
 
-            const process = exec(command, { cwd, timeout: 300000 }, (error, stdout, stderr) => {
+            const childProcess = exec(command, { cwd, timeout: 300000 }, (error, stdout, stderr) => {
                 if (cancellationToken?.isCancellationRequested) {
                     resolve({ success: false, output: '', error: 'Cancelled by user' });
                     return;
@@ -73,7 +73,7 @@ export class TerminalManager {
             // Handle cancellation
             if (cancellationToken) {
                 cancellationToken.onCancellationRequested(() => {
-                    process.kill();
+                    childProcess.kill();
                     resolve({ success: false, output: '', error: 'Cancelled by user' });
                 });
             }
